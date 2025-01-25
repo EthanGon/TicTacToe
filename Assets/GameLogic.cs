@@ -12,6 +12,7 @@ public class GameLogic : MonoBehaviour
     public int countSlotsTaken = 0;
     public Text[] symbolBox;
     public Text gameOverText;
+    public Text displayPlayerTurn;
     public GameObject gameOverScreen;
     
     public void addSymbol() 
@@ -21,11 +22,12 @@ public class GameLogic : MonoBehaviour
         {
             if (xTurn)
             {
+                DisplayCurrentTurn();
                 countSlotsTaken++;
                 EventSystem.current.currentSelectedGameObject.transform.Find("text").gameObject.GetComponent<Text>().text = "X";
                 EventSystem.current.currentSelectedGameObject.GetComponent<Button>().interactable = false;
                 xTurn = false;
-
+                
                 checkSlots("X", 0, 1, 2);
                 checkSlots("X", 3, 4, 5);
                 checkSlots("X", 6, 7, 8);
@@ -39,6 +41,7 @@ public class GameLogic : MonoBehaviour
             }
             else
             {
+                DisplayCurrentTurn();
                 countSlotsTaken++;
                 EventSystem.current.currentSelectedGameObject.transform.Find("text").gameObject.GetComponent<Text>().text = "O";
                 EventSystem.current.currentSelectedGameObject.GetComponent<Button>().interactable = false;
@@ -56,6 +59,18 @@ public class GameLogic : MonoBehaviour
             }
         }
 
+    }
+
+    public void DisplayCurrentTurn() 
+    { 
+        if (xTurn)
+        {
+            displayPlayerTurn.text = "O's TURN";
+        } 
+        else
+        {
+            displayPlayerTurn.text = "X's TURN";
+        }
     }
 
     public void checkSlots(string symbol, int slot1, int slot2, int slot3) 
@@ -93,6 +108,11 @@ public class GameLogic : MonoBehaviour
     {
         gameOver = true;
         gameOverScreen.SetActive(true);
+    }
+
+    public void ExitGame() 
+    { 
+        Application.Quit();
     }
 
 
